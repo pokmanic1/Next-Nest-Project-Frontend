@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-serif-inria: var(--font-inria-serif);
+  --font-serif-playfair: var(--font-playfair-display);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@utility flex-center {
+    @apply flex justify-center items-center;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@utility flex-full {
+    @apply w-full h-dvh flex justify-center items-center;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility col-center {
+    @apply flex flex-col justify-center items-center;
+}
+
+@utility abs-center {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+@utility principal-gradient{
+background: radial-gradient(circle at center, #0e082c 0%, #030014 100%);
+}
+
+@utility h1-style{
+    @apply text-center text-white text-[80px] font-serif-inria my-auto 
+}
+
+@utility text-gradient {
+background: linear-gradient(to right, #3b82f6, #ec4899);
+}
+
+
+@utility gradient-secundar {
+    background: linear-gradient(to bottom, #003161, #002396);
+}
+
+
+@utility border-gradient {
+    border: 3px solid;
+    border-image: linear-gradient(to bottom, #0059B3, #001455) 1;
+}
+
+
+@utility radial-gradient {
+    background: radial-gradient(
+            circle at center,
+            #434343 0%,
+            #000 50%,
+            transparent 100%
+    );
+}
+
+@utility masked-img {
+    mask-image: url("/images/mask-img.png");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 50%;
 }
