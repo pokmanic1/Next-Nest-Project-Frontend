@@ -10,7 +10,7 @@
 }
 
 @utility flex-full {
-    @apply w-full h-dvh flex justify-center items-center;
+    @apply w-full h-dvh flex flex-col justify-center items-center;
 }
 
 @utility col-center {
