@@ -12,7 +12,7 @@ const Navbar = () => {
         setBurger((prevState) => !prevState)
     }
 
-    const logat = true
+    const logat = false
 
     const LogatUI = () => {
         if (!logat) {
