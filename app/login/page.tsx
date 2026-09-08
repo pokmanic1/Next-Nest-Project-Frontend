@@ -3,7 +3,7 @@ import GhostFibers from '@/components/Background';
 
 const Login = () => {
     return (
-        <section className="relative w-full min-w-[375px] min-h-screen flex flex-col items-center justify-center  overflow-hidden m">
+        <section className="relative w-full min-w-[375px] min-h-screen flex flex-col items-center justify-center overflow-hidden m">
 
             <div className="absolute inset-0 w-full h-full pointer-events-none ">
                 <GhostFibers
@@ -38,8 +38,10 @@ const Login = () => {
             </div>
 
             <form action=""
-                className='w-full md:w-[80%] max-w-[800px]   bg-white/40 backdrop-blur-md    z-10 px-[100px] pb-[100px] pt-[50px] rounded-xl shadow-lg border border-white/20 flex flex-col gap-4'>
-                <h1 className="text-[36px] sm:text-[44px] md:text-[50px]  font-bold --font-poppins text-center text-gray-800 mb-4">Logare</h1>
+                className='w-[90%] md:w-[80%] max-w-[800px] bg-white/40 backdrop-blur-md z-10 px-6 sm:px-12 md:px-[100px] py-8 sm:pt-[50px] sm:pb-[100px] rounded-xl shadow-lg border border-white/20 flex flex-col gap-4'>
+                <h1 className="text-[32px] sm:text-[44px] md:text-[50px] font-bold --font-poppins text-center text-gray-800 mb-2 sm:mb-4">
+                    Logare
+                </h1>
 
                 <div className="flex flex-col gap-1.5">
                     <label htmlFor="email" className="text-sm font-semibold text-gray-700">
@@ -49,7 +51,6 @@ const Login = () => {
                         type="email"
                         id="email"
                         name="email"
-
                         required
                         className="w-full px-4 py-2 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800 placeholder-gray-400"
                     />
@@ -63,7 +64,6 @@ const Login = () => {
                         type="password"
                         id="password"
                         name="password"
-
                         required
                         className="w-full px-4 py-2 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800 placeholder-gray-400"
                     />
@@ -71,9 +71,9 @@ const Login = () => {
 
                 <button
                     type="submit"
-                    className="w-full py-2.5 mt-10 bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] hover:-translate-y-0.5 text-white font-semibold rounded-lg shadow-md hover:shadow-indigo-500/25 hover:shadow-lg transition-all duration-200 ease-out cursor-pointer"
+                    className="w-full py-2.5 mt-6 sm:mt-10 bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] hover:-translate-y-0.5 text-white font-semibold rounded-lg shadow-md hover:shadow-indigo-500/25 hover:shadow-lg transition-all duration-200 ease-out cursor-pointer"
                 >
-                    Creează cont
+                    Autentificare
                 </button>
             </form>
 
@@ -81,4 +81,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default Login;   
