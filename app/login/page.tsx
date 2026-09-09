@@ -1,9 +1,54 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import GhostFibers from '@/components/Background';
 
 const Login = () => {
+
+    const [form, setForm] = useState({
+        email: '',
+        password: '',
+    });
+    const [errForm, setErrForm] = useState({
+        errEmail: '',
+        errPassword: '',
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { value, name } = e.target;
+        setForm(prev => ({
+            ...prev,
+            [name]: value
+        }))
+        console.log('------------------------------------')
+        console.log('------------------------------------')
+        console.log('------------------------------------')
+        console.log('-------------FORM---------------')
+        console.log(form)
+    };
+
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        let valid = true;
+        const objectForm = {
+            errEmail: '',
+            errPassword: ''
+        }
+        setErrForm(objectForm);
+
+        if (!form.email.trim()) {
+            objectForm.errEmail = 'Emailul e obligatoriu';
+            valid = false;
+        }
+        if (!form.password.trim()) {
+            objectForm.errPassword = 'Parola e obligatorie';
+            valid = false;
+        }
+        setErrForm(objectForm);
+        if (!valid) return;
+    }
+
     return (
-        <section className="relative w-full min-w-[375px] min-h-screen flex flex-col items-center justify-center overflow-hidden m">
+        <section className="relative w-full min-w-[375px] min-h-screen flex flex-col items-center justify-center overflow-hidden ">
 
             <div className="absolute inset-0 w-full h-full pointer-events-none ">
                 <GhostFibers
@@ -37,8 +82,8 @@ const Login = () => {
                 />
             </div>
 
-            <form action=""
-                className='w-[90%] md:w-[80%] max-w-[800px] bg-white/40 backdrop-blur-md z-10 px-6 sm:px-12 md:px-[100px] py-8 sm:pt-[50px] sm:pb-[100px] rounded-xl shadow-lg border border-white/20 flex flex-col gap-4'>
+            <form action="" onSubmit={onSubmit}
+                className='w-[90%] md:w-[80%] max-w-[800px] bg-white/40 backdrop-blur-md z-10 py-8 px-6 sm:px-12 md:px-[50px] md:pt-[25px] md:pb-[10px] lg:px-[100px] lg:pt-[50px] lg:pb-[100px] md:mt-[100px] rounded-xl shadow-lg border border-white/20 flex flex-col gap-4'>
                 <h1 className="text-[32px] sm:text-[44px] md:text-[50px] font-bold --font-poppins text-center text-gray-800 mb-2 sm:mb-4">
                     Logare
                 </h1>
@@ -48,12 +93,14 @@ const Login = () => {
                         Email
                     </label>
                     <input
-                        type="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        type="text"
                         id="email"
                         name="email"
-                        required
-                        className="w-full px-4 py-2 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800 placeholder-gray-400"
+                        className={`w-full px-4 py-2 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 ${errForm.errEmail ? "border-2 border-red-600 focus:ring-red-700" : 'focus:ring-indigo-500 '} focus:border-transparent text-gray-800 placeholder-gray-400`}
                     />
+                    {errForm.errEmail && <p className='text-center text-red-600 text-[11px] sm:text-[12px] md:text-[13px] mb-[-25px]'>{errForm.errEmail}</p>}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
@@ -61,12 +108,14 @@ const Login = () => {
                         Parolă
                     </label>
                     <input
+                        value={form.password}
+                        onChange={handleChange}
                         type="password"
                         id="password"
                         name="password"
-                        required
-                        className="w-full px-4 py-2 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800 placeholder-gray-400"
+                        className={`w-full px-4 py-2 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 ${errForm.errPassword ? "border-2 border-red-600 focus:ring-red-700" : 'focus:ring-indigo-500 '} focus:border-transparent text-gray-800 placeholder-gray-400`}
                     />
+                    {errForm.errPassword && <p className='text-center text-red-600 text-[11px] sm:text-[12px] md:text-[13px] mb-[-25px]'>{errForm.errPassword}</p>}
                 </div>
 
                 <button
@@ -81,4 +130,4 @@ const Login = () => {
     );
 }
 
-export default Login;   
+export default Login;
