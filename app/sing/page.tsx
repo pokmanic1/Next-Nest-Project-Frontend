@@ -15,6 +15,9 @@ const Register = () => {
         errEmail: '',
         errPassword: '',
     });
+
+    const [mesajErrGeneral, setMesErrGeneral] = useState('');
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { value, name } = e.target;
         setForm(prev => ({
@@ -27,7 +30,9 @@ const Register = () => {
         console.log('-------------FORM---------------')
         console.log(form)
     };
-    const onSubmit = (e: React.FormEvent) => {
+
+
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         let valid = true;
         const objectForm = {
@@ -36,6 +41,8 @@ const Register = () => {
             errPassword: ''
         }
         setErrForm(objectForm);
+        setMesErrGeneral('');
+
         if (!form.username.trim()) {
             objectForm.errUsername = 'Usernamul e obligatoriu',
                 valid = false
@@ -51,7 +58,28 @@ const Register = () => {
         setErrForm(objectForm);
         if (!valid) return;
 
+        try {
+            const res = await fetch('http://localhost:3001/auth/sing', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(form),
+            });
+            const data = await res.json();
 
+            if (!res.ok) {
+                const [msg] = [data.message].flat();
+                setMesErrGeneral(msg || 'A apărut o eroare, încearcă din nou.');
+                return;
+            }
+
+            setForm({ username: '', email: '', password: '' });
+            console.log('Cont creat:', data);
+
+        } catch (err: any) {
+            console.error(err);
+            setMesErrGeneral('Nu am putut contacta serverul. Verifică conexiunea.');
+        }
     }
 
 
@@ -145,6 +173,7 @@ const Register = () => {
                     />
                     {errForm.errPassword && <p className='text-center text-red-600 text-[11px] sm:text-[12px] md:text-[13px] mb-[-25px]'>{errForm.errPassword}</p>}
                 </div>
+                {mesajErrGeneral && <div className='text-center bg-red-200 text-black py-1 px-4 border rounded-xl mt-[0px] mb-[-40px] border-red-800 text-[11px] sm:text-[12px] md:text-[13px] mb-[-25px]'>{mesajErrGeneral}</div>}
 
 
                 <button
