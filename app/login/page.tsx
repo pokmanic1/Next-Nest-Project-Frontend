@@ -1,8 +1,10 @@
 'use client'
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import GhostFibers from '@/components/Background';
 
 const Login = () => {
+    const router = useRouter();
 
     const [form, setForm] = useState({
         email: '',
@@ -13,27 +15,25 @@ const Login = () => {
         errPassword: '',
     });
 
+    const [mesajErrGeneral, setMesErrGeneral] = useState('');
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { value, name } = e.target;
         setForm(prev => ({
             ...prev,
             [name]: value
-        }))
-        console.log('------------------------------------')
-        console.log('------------------------------------')
-        console.log('------------------------------------')
-        console.log('-------------FORM---------------')
-        console.log(form)
+        }));
     };
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         let valid = true;
         const objectForm = {
             errEmail: '',
             errPassword: ''
-        }
+        };
         setErrForm(objectForm);
+        setMesErrGeneral('');
 
         if (!form.email.trim()) {
             objectForm.errEmail = 'Emailul e obligatoriu';
@@ -43,14 +43,40 @@ const Login = () => {
             objectForm.errPassword = 'Parola e obligatorie';
             valid = false;
         }
+
         setErrForm(objectForm);
         if (!valid) return;
-    }
+
+        try {
+            const res = await fetch('http://localhost:3001/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(form),
+            });
+            
+            const data = await res.json();
+
+            if (!res.ok) {
+                const [msg] = [data.message].flat();
+                setMesErrGeneral(msg || 'Email sau parolă incorectă.');
+                return;
+            }
+
+            setForm({ email: '', password: '' });
+            console.log('Logare reușită:', data);
+            router.push('/');
+
+        } catch (err: any) {
+            console.error(err);
+            setMesErrGeneral('Nu am putut contacta serverul. Verifică conexiunea.');
+        }
+    };
 
     return (
-        <section className="relative w-full min-w-[375px] min-h-screen flex flex-col items-center justify-center overflow-hidden ">
+        <section className="relative w-full min-w-[375px] min-h-screen flex flex-col items-center justify-center overflow-hidden">
 
-            <div className="absolute inset-0 w-full h-full pointer-events-none ">
+            <div className="absolute inset-0 w-full h-full pointer-events-none">
                 <GhostFibers
                     lineColor="#3a3cff"
                     glowColor="#a4acff"
@@ -117,6 +143,8 @@ const Login = () => {
                     />
                     {errForm.errPassword && <p className='text-center text-red-600 text-[11px] sm:text-[12px] md:text-[13px] mb-[-25px]'>{errForm.errPassword}</p>}
                 </div>
+
+                {mesajErrGeneral && <div className='text-center bg-red-200 text-black py-1 px-4 border rounded-xl mt-[0px] mb-[-40px] border-red-800 text-[11px] sm:text-[12px] md:text-[13px] mb-[-25px]'>{mesajErrGeneral}</div>}
 
                 <button
                     type="submit"

@@ -1,10 +1,10 @@
 'use client'
 import React, { useState } from 'react';
 import GhostFibers from '@/components/Background';
-import { p } from 'framer-motion/client';
+import { useRouter } from 'next/navigation';
 
 const Register = () => {
-
+      const router = useRouter();
     const [form, setForm] = useState({
         username: '',
         email: '',
@@ -75,7 +75,7 @@ const Register = () => {
 
             setForm({ username: '', email: '', password: '' });
             console.log('Cont creat:', data);
-
+                        router.push('/');
         } catch (err: any) {
             console.error(err);
             setMesErrGeneral('Nu am putut contacta serverul. Verifică conexiunea.');
